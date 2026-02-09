@@ -109,7 +109,7 @@ The following illustration shows how raw fixed-length data is transformed
 into a structured, analytics-ready format after applying the complete
 Databricks ingestion and parsing workflow.
 
-![Fixed-Length Data Transformation](images/fixed_length_before_after.png)
+![Fixed-Length Data Transformation](./images/fixed_length_before_after.png)
 
 The project follows a structured, step-by-step data ingestion and
 transformation workflow designed for enterprise fixed-length file processing
