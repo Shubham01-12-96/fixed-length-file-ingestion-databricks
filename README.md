@@ -59,13 +59,49 @@ at scale requires a distributed and schema-driven approach.
 
 ---
 
-## Execution Workflow
-1. Upload the fixed-length file to Databricks File System (DBFS)
-2. Execute the Databricks notebook
-3. Read raw data as text using Spark
-4. Parse records based on fixed column positions
-5. Apply data cleansing and validation logic
-6. Generate structured Spark DataFrame output
+##  Execution Workflow
+
+The project follows a structured, step-by-step data ingestion and
+transformation workflow designed for enterprise fixed-length file processing
+on Databricks.
+
+1. **Ingest Raw Fixed-Length File**
+   - Raw fixed-width text file is uploaded to Databricks File System (DBFS)
+   - Data is read as plain text since the file does not contain delimiters
+
+2. **Initial DataFrame Creation**
+   - Spark reads the raw file into a single-column DataFrame
+   - Each row represents one complete fixed-length record
+
+3. **Row-Level Processing Preparation**
+   - DataFrame is converted into an RDD to enable row-level parsing
+   - Raw string records are extracted for character-position-based processing
+
+4. **Schema Metadata Definition**
+   - Fixed-length schema metadata is defined, including column names,
+     start positions, and field lengths
+   - Schema metadata drives all downstream parsing logic
+
+5. **Fixed-Length Field Extraction**
+   - Each raw record is parsed using schema-defined character positions
+   - Substrings are extracted and assembled into structured tuples
+
+6. **Schema Construction**
+   - Spark `StructType` schema is dynamically generated from schema metadata
+   - Ensures consistent column naming and structure
+
+7. **Structured DataFrame Creation**
+   - Parsed RDD is converted back into a Spark DataFrame using the defined schema
+   - Enables optimized Spark execution and SQL-based analytics
+
+8. **Data Validation and Inspection**
+   - Schema and sample records are validated using Spark display and inspection
+   - Confirms correct field extraction and data alignment
+
+9. **Production Readiness Considerations**
+   - Workflow is designed to be schedulable as a Databricks Job
+   - Can be integrated with Azure Data Factory for orchestration
+   - Easily extensible to write output to Delta Lake (Bronze → Silver layers)
 
 ---
 
